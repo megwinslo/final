@@ -1,0 +1,2 @@
+python -m pip <pip arguments>
+python -m pip install matplotlib.pyplot
