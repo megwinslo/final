@@ -1,2 +1,2 @@
 opencv-python
-matplotlib.pyplot as plt
+matplotlib
