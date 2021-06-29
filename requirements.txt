@@ -1,2 +1,2 @@
-python -m pip <pip arguments>
+python -m pip </usr/bin/python3.9 -m>
 python -m pip install matplotlib.pyplot
