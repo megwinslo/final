@@ -14,6 +14,7 @@ The main function calls all the other functions, while splitting them into diffe
 add background images and change font colors
 """
 
+python -m pip install -r requirements.txt
 python -m pip install matplotlib.pyplot
 import csv
 import statistics
