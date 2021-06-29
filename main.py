@@ -15,7 +15,7 @@ add background images and change font colors
 """
 
 
-python - pip install -r requirements.txt
+
 import csv
 import statistics
 import matplotlib.pyplot as plt
