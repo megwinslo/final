@@ -14,13 +14,13 @@ The main function calls all the other functions, while splitting them into diffe
 add background images and change font colors
 """
 
-
-
 import csv
 import statistics
 import matplotlib.pyplot as plt
 import streamlit as st
 import pandas as pd
+import pydeck as pdk
+
 
 #creates a bar chart with lets you call it with a color and charts how many skyscrapers were created per year
 def bar_chart(skyscrapers, col):
@@ -55,13 +55,13 @@ def statistics_height(skyscrapers):
     mean = mean.round()
     median = a.median()
     return max, min, mean, median
-def map(skyscrapers, z = 1):
-    cordinate_tuple = ("lat", "lon") #made a tuple to chnage lat and lon
-    cordinates = skyscrapers[["Latitude", "Longitude"]]
+def map(skyscrapers, z =1):
+    coordinate_tuple = ("lat", "lon") #made a tuple to chnage lat and lon
+    coordinates = skyscrapers[["Latitude", "Longitude"]]
     #rename to lat and lon because have to map that way
-    cordinates = cordinates.rename(columns = {'Latitude':cordinate_tuple[0], 'Longitude':cordinate_tuple[1]})
-    cordinates = cordinates.apply(pd.to_numeric) #makes them an number
-    st.map(cordinates, zoom=z) #maps the coordinates
+    coordinates = coordinates.rename(columns = {'Latitude':coordinate_tuple[0], 'Longitude':coordinate_tuple[1]})
+    coordinates = coordinates.apply(pd.to_numeric) #makes them an number
+    st.map(coordinates, zoom=z) #maps the coordinates
 
 def pick_city(skyscrapers):
     city_list = skyscrapers["CITY"].tolist() #makes list of vities
@@ -94,8 +94,8 @@ def find_skyscraper(skyscrapers):
 def main():
     skyscrapers = pd.read_csv("Skyscrapers.csv")
     skyscrapers = skyscrapers.drop(labels=0, axis=0)
-    page = st.sidebar.selectbox("Choose your page", ["Page 1", "Page 2", "Page 3", "Page 4", "Page 5", "Page 6", "Page 7"])
-    if page == "Page 1":
+    page = st.sidebar.selectbox("Choose your page", ["Home Page", "Bar Chart", "Pie Chart", "Statistical Data", "Map", "Skyscrapers per City", "Find Skyscraper"])
+    if page == "Home Page":
         main_title = '<p style="font-family:sans-serif; color:Black; font-size: 42px;">Going to New Heights</p>'
         sub_title = '<p style="font-family:sans-serif; color:Black; font-size: 22px;">This is the Burj Khalifa - The Tallest Skyscraper in the World</p>'
         st.markdown(main_title, unsafe_allow_html=True)
@@ -113,15 +113,15 @@ def main():
         </style>
         """,
         unsafe_allow_html=True)
-    elif page == "Page 2":
-        st.title("Page 2 - Bar Chart")
+    elif page == "Bar Chart":
+        st.title("Bar Chart")
         st.pyplot(bar_chart(skyscrapers, 'slateblue'), clear_figure=True)
-    elif page == "Page 3":
-        st.title("Page 3 - Pie Chart")
+    elif page == "Pie Chart":
+        st.title("Pie Chart")
         pie = pie_chart(skyscrapers)
         st.pyplot(pie, clear_figure=True)
-    elif page == "Page 4":
-        st.title("Page 4 - Statistical Data")
+    elif page == "Statistical Data":
+        st.title("Statistical Data")
         st.subheader("Max, Min, Mean, & Median of Floors in Skyscrapers")
         floors = statistic_floors(skyscrapers)
         st.write("Max:", floors["max"])
@@ -145,11 +145,11 @@ def main():
         </style>
         """,
         unsafe_allow_html=True)
-    elif page == "Page 5":
-        st.title("Page 5 - Map of All Skyscrapers")
+    elif page == "Map":
+        st.title("Map of All Skyscrapers")
         map(skyscrapers)
-    elif page == "Page 6":
-        st.title("Page 6 - Find Top Skyscrapers Based on Selected City")
+    elif page == "Skyscrapers per City":
+        st.title("Find Top Skyscrapers Based on Selected City")
         pick_city(skyscrapers)
         #lets me add a background image using css
         st.markdown(
@@ -162,8 +162,8 @@ def main():
         </style>
         """,
         unsafe_allow_html=True)
-    elif page == "Page 7":
-        st.title("Page 7 - Find Skyscraper Based on Location, Year, & Material")
+    elif page == "Find Skyscraper":
+        st.title("Find Skyscraper Based on Location, Year, & Material")
         st.subheader("Displays Choice on Map")
         find_skyscraper(skyscrapers)
 main()
